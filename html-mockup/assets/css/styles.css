@@ -17,6 +17,7 @@ body > div > div > h1 {
   color: white;
 }
 
+/* From Bootstrap component */
 #navcol-1>p {
   margin-bottom: 0;
   margin-right: 20px;
