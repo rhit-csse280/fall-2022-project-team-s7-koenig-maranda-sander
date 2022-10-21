@@ -1,0 +1,28 @@
+#chatbotContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70%;
+}
+
+
+
+#chatbotImage {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border: 5px white ridge;
+}
+
+#chatbotText {
+    text-align: center;
+    background-color: #333333;
+    color: white;
+    border-bottom: 5px white ridge;
+    border-right: 5px white ridge;
+    border-left: 5px white ridge;
+    max-width: 100%;
+}
+#buttonList {
+    margin: 0 auto;
+}
