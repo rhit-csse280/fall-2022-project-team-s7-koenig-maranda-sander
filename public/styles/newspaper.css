@@ -4,6 +4,7 @@
     flex-direction: column;
     width: 960px;
     font-family: 'Noto Serif', serif;
+    margin-bottom: 30px;
 }
 
 #newspaperHeader {

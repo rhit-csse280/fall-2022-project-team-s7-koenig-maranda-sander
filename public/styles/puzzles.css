@@ -1,0 +1,54 @@
+body>div>div>div>div:nth-child(1)>img {
+    width: 400px;
+}
+
+body>div>div>div>div:nth-child(2) {
+    margin: auto;
+}
+
+body>div>div>div>div:nth-child(2)>div.btn-group-vertical {
+    width: 200px;
+}
+
+body>div>div>div>div:nth-child(2)>div.btn-group-vertical>button {
+    color: black;
+    background: white;
+    border-width: 1.5px;
+    border-color: black;
+}
+
+body>div>div>div>div:nth-child(2)>div.btn-group-vertical>button>svg {
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+
+body>div>div>div>div:nth-child(2)>div.btn-group-vertical>button>svg.complete {
+    color: green !important;
+}
+
+body>div>div>div>div:nth-child(2)>div:nth-child(2) {
+    height: 20px;
+}
+
+body>div>div>div>div:nth-child(2)>input[type=text] {
+    border-radius: 6px 0 0 6px;
+    border-width: 1px 0 1px 1px;
+    border-color: black;
+}
+
+body>div>div>div>div:nth-child(2)>button {
+    height: 28px;
+    width: 28px;
+    padding: 1px 2px;
+    border-radius: 0 6px 6px 0;
+    border-width: 1px;
+    border-color: black;
+    background: var(--bs-gray-dark);
+    margin-bottom: 4px;
+    left: -5px;
+    position: relative;
+}
+
+body>div>div>div>div:nth-child(2)>button>svg {
+    margin-bottom: 4px;
+}

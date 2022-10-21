@@ -1,0 +1,4 @@
+body>div>div>p {
+    color: var(--bs-light);
+    max-width: 600px;
+}

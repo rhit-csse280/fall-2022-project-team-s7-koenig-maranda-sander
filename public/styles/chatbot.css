@@ -8,8 +8,8 @@
 
 
 #chatbotImage {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    box-sizing: border-box;
     margin: 0 auto;
     border: 5px white ridge;
 }
@@ -25,4 +25,5 @@
 }
 #buttonList {
     margin: 0 auto;
+    padding-bottom: 30px;
 }

@@ -1,0 +1,32 @@
+.card {
+    margin-bottom: 12px;
+}
+
+body>div>div>h1 {
+    margin-bottom: 20px;
+}
+
+.card-body {
+    max-width: 600px;
+    min-width: 320px;
+    width: 40vw;
+    padding: 16px;
+}
+
+.card-body h4 {
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.card-body h4:nth-child(3) {
+    width: -moz-fit-content;
+    color: var(--bs-gray);
+    margin-bottom: 0;
+    width: fit-content;
+}
+
+body>div>div>div:nth-child(7) {
+    margin-top: 100px;
+}
