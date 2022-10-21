@@ -3,8 +3,8 @@ nav {
   box-shadow: 0px 0px 5px var(--bs-navbar-color);
 }
 
-body>nav>div>a>span.bs-icon-sm {
-  background: var(--page-accent);
+nav>div>a>span.bs-icon-sm {
+  background: var(--page-accent) !important;
 }
 
 div.container-fluid {

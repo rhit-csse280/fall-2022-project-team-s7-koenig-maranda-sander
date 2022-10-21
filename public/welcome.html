@@ -6,23 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Escape Room</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./styles/styles.css">
     <style>
         html {
-            --page-accent: blue
+            --page-accent: green;
         }
 
-        body>div>div>button {
-            margin-top: 20px;
-            background: #800000 !important;
-            border-width: 0px !important;
-            font-size: 18px;
-        }
-
-        body>div>div>button>img {
-            height: 15px;
-            margin-right: 8px;
-            margin-bottom: 3px;
+        body>div>div>p {
+            color: var(--bs-light);
+            max-width: 600px;
         }
     </style>
 </head>
@@ -32,8 +24,8 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <span
-                    class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
+                    class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg
+                        xmlns="http://www.w3.org/2000/svg" viewBox="-32 0 512 512" width="1em" height="1em"
                         fill="currentColor">
                         <path
                             d="M80 192V144C80 64.47 144.5 0 224 0C303.5 0 368 64.47 368 144V192H384C419.3 192 448 220.7 448 256V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V256C0 220.7 28.65 192 64 192H80zM144 192H304V144C304 99.82 268.2 64 224 64C179.8 64 144 99.82 144 144V192z">
@@ -49,8 +41,12 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav me-auto"></ul>
-                <button type="button" class="btn btn-primary" onclick="window.location = './welcome.html'">Log in</button>
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Leaderboard</a></li>
+                </ul>
+                <p class="navbar-text">00:00</p>
+                <button class="btn btn-primary" type="button">Log out</button>
             </div>
         </div>
     </nav>
@@ -58,10 +54,17 @@
         class="container-fluid d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center">
         <div class="text-center">
             <h1 class="text-center">
-                <strong>Welcome to<br />!(!Escape Room)</strong>
+                <strong>How to Play</strong>
             </h1>
-            <button type="button" class="btn btn-primary" onclick="window.location = './welcome.html'">
-                <img alt="Rose-Hulman logo" src="./assets/img/rose-logo.svg">Log in with Rosefire</button>
+            <p>
+                You will be presented with 5 puzzles to solve. Each
+                puzzle contains a password that must be entered on the home page. Once you complete all the puzzles, the
+                game is over. The top scores sorted by shortest amount of time to complete are shown on the leaderboard
+                page.
+                <br><br>
+                Your time starts as soon as you click the button below.
+            </p>
+            <button class="btn btn-success" type="button">Get started</button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
