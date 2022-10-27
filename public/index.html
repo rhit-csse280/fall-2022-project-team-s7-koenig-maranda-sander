@@ -38,7 +38,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav me-auto"></ul>
-                <button type="button" class="btn btn-primary" onclick="window.location = './welcome.html'">Log in</button>
+                <button id="authHeader" type="button" class="btn btn-primary">Log in</button>
             </div>
         </div>
     </nav>
@@ -48,11 +48,18 @@
             <h1 class="text-center">
                 <strong>Welcome to<br />!(!Escape Room)</strong>
             </h1>
-            <button type="button" class="btn btn-primary" onclick="window.location = './welcome.html'">
+            <button id="authBody" type="button" class="btn btn-primary">
                 <img alt="Rose-Hulman logo" src="./images/rose-logo.svg">Log in with Rosefire</button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
+    <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js"></script>
+    <script src="./scripts/rosefire.min.js"></script>
+    <script src="./scripts/main.js"></script>
 </body>
 
 </html>
