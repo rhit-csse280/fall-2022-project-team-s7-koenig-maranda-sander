@@ -49,17 +49,38 @@ app.UserDatabaseManager = class {
         this._ref = firebase.firestore().collection('users').doc(uid);
     }
 
-    firstSignIn() {
-        _ref.get().then(snap => { return snap.exists });
+    createUserData() {
+        console.log('Not yet implemented');
+    }
+    get data() {
+        return this._ref.get();
     }
 }
 
 app.checkForRedirects = () => {
     const onLoginPage = window.location.pathname == '/' || window.location.pathname == '/index.html';
-    if (onLoginPage && app.auth.isSignedIn)
-        window.location.href = (app.database.firstSignIn()) ? '/welcome.html' : '/puzzles-home.html';
+    if (app.auth.isSignedIn) {
+        app.database = new app.UserDatabaseManager(app.auth.uid);
+        app.database.data.then(db => {
+            if (!db.exists && window.location.pathname != '/welcome.html')
+                window.location.href = '/welcome.html';
+            else if ((onLoginPage || window.location.pathname == '/welcome.html') && db.exists)
+                window.location.href = '/puzzles-home.html';
+        });
+    }
     else if (!onLoginPage && !app.auth.isSignedIn)
         window.location.href = '/index.html';
+}
+
+app.pageManager = () => {
+    if (window.location.pathname == '/' || window.location.pathname == '/index.html') {
+        document.querySelector('#authHeader').onclick = () => app.auth.signIn();
+        document.querySelector('#authBody').onclick = () => app.auth.signIn();
+    } else
+        document.querySelector('#authHeader').onclick = () => app.auth.signOut();
+
+    if (window.location.pathname == '/welcome.html')
+        app.database.createUserData();
 }
 
 app.auth = null;
@@ -69,13 +90,8 @@ app.main = () => {
     app.auth = new app.AuthManager();
     app.auth.beginListening(() => {
         app.checkForRedirects();
+        app.pageManager();
     });
-
-    if (window.location.pathname == '/' || window.location.pathname == '/index.html') {
-        document.querySelector('#authHeader').onclick = () => app.auth.signIn();
-        document.querySelector('#authBody').onclick = () => app.auth.signIn();
-    } else
-        app.database = new app.UserDatabaseManager(app.auth.uid);
 }
 
 app.main();
