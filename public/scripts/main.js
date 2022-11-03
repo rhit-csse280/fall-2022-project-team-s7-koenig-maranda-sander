@@ -1,5 +1,4 @@
 const app = {} || app;
-window.app = app;
 app.NUMBER_OF_PUZZLES = 4;
 
 app.auth = null;
@@ -251,6 +250,11 @@ app.pageManager = () => {
         case '/puzzles-home.html':
             app.pageController = new app.HomePageController();
             app.pageController.setPuzzleStatus();
+            break;
+        case '/chatbot.html':
+            app.database.data.then(doc => {
+                currentPassword = doc.data().puzzlePasswords['chatbot'];
+            });
             break;
         case '/leaderboard.html':
             app.pageController = new app.LeaderboardPageController();
