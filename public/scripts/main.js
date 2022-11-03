@@ -4,6 +4,7 @@ app.NUMBER_OF_PUZZLES = 4;
 app.auth = null;
 app.database = null;
 app.pageController = null;
+currentPassword;
 
 
 /**
