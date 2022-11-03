@@ -17,12 +17,12 @@ body>div>div>div>div:nth-child(2)>div.btn-group-vertical>button {
     border-color: black;
 }
 
-body>div>div>div>div:nth-child(2)>div.btn-group-vertical>button>svg {
+body>div>div>div>div:nth-child(2)>div.btn-group-vertical>button>span>svg {
     margin-right: 5px;
     margin-bottom: 3px;
 }
 
-body>div>div>div>div:nth-child(2)>div.btn-group-vertical>button>svg.complete {
+body>div>div>div>div:nth-child(2)>div.btn-group-vertical>button>span>svg.complete {
     color: green !important;
 }
 
