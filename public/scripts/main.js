@@ -4,7 +4,6 @@ app.NUMBER_OF_PUZZLES = 4;
 app.auth = null;
 app.database = null;
 app.pageController = null;
-currentPassword;
 
 
 /**
@@ -254,7 +253,7 @@ app.pageManager = () => {
             break;
         case '/chatbot.html':
             app.database.data.then(doc => {
-                currentPassword = doc.data().puzzlePasswords['chatbot'];
+                chatbot.password = doc.data().puzzlePasswords['chatbot'];
             });
             break;
         case '/leaderboard.html':
