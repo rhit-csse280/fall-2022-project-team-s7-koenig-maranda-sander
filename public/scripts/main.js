@@ -1,4 +1,5 @@
-var app = {} || app;
+const app = {} || app;
+window.app = app;
 app.NUMBER_OF_PUZZLES = 4;
 
 app.auth = null;
