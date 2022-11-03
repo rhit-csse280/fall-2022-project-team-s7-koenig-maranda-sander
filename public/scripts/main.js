@@ -1,4 +1,4 @@
-const app = {} || app;
+var app = {} || app;
 app.NUMBER_OF_PUZZLES = 4;
 
 app.auth = null;
@@ -270,4 +270,3 @@ app.main = () => {
 }
 
 app.main();
-export { app };
