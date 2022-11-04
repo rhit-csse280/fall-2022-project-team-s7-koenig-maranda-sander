@@ -27,6 +27,6 @@ body>div>div>h1 {
     width: fit-content;
 }
 
-body>div>div>div:nth-child(7) {
+#leaderboard > div:nth-child(7) {
     margin-top: 100px;
 }

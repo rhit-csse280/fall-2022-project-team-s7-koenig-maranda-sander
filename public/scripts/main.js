@@ -1,10 +1,17 @@
 const app = {} || app;
 app.NUMBER_OF_PUZZLES = 4;
+app.WRONG_PASSWORD_TIMEOUT = 2000;
 
 app.auth = null;
 app.database = null;
 app.pageController = null;
 
+/**
+ * TODO (Canon):
+ * - fix timeCompleted, last puzzle not changing when completed
+ * - create leaderboard object on completion
+ * - passwordle
+ */
 
 /**
  * Class: AuthManager
@@ -65,14 +72,11 @@ app.UserDatabaseManager = class {
 
     createUserData() {
         if (window.location.pathname != '/welcome.html') return;
-        let newspaperInts = [];
-        for (let i = 0; i < 4; i++)
-            newspaperInts.push(Math.floor(Math.random() * (10 - 1) + 1));
         this._ref.set({
             name: app.auth.displayName,
             puzzlePasswords: {
                 brick: app.getRandomText(8),
-                newspaper: parseInt(newspaperInts.join('')),
+                newspaper: app.getRandomText(6, true),
                 passwordle: app.getRandomText(5),
                 chatbot: app.getRandomText(8)
             },
@@ -104,11 +108,12 @@ app.UserDatabaseManager = class {
 /**
  * Generates a random string of charaters of a given length.
  * @param length number of characters to generate
+ * @param lettersOnly determines if the string should only contain letters
  * @returns string of random characters
  */
-app.getRandomText = length => {
+app.getRandomText = (length, lettersOnly = false) => {
     let result = '';
-    const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#%^*(),.+-_=';
+    const characters = (lettersOnly) ? 'abcdefghijklmnopqrstuvwxyz' : 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#%^*(),.+-_=';
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
@@ -121,7 +126,7 @@ app.getRandomText = length => {
  */
 app.HomePageController = class {
     constructor() {
-        document.querySelector('#passwordSubmit').onclick = () => this.checkPassword(document.querySelector('#passwordText').value);
+        document.querySelector('#passwordSubmit').onclick = () => this.checkPassword(document.querySelector('#passwordText'));
     }
 
     setPuzzleStatus() {
@@ -147,11 +152,19 @@ app.HomePageController = class {
         app.database.data.then(doc => {
             let puzzlePasswords = doc.data().puzzlePasswords;
             for (let puzzle in puzzlePasswords) {
-                if (input == puzzlePasswords[puzzle]) {
+                if (input.value == puzzlePasswords[puzzle]
+                    || (puzzle == 'newspaper' && input.value.toLowerCase() == puzzlePasswords[puzzle])) {
                     app.database.puzzleCompleted(puzzle);
                     break;
                 }
             }
+            input.style.color = 'red';
+            input.disabled = true;
+            setTimeout(() => {
+                input.style.color = 'black';
+                input.value = '';
+                input.disabled = false;
+            }, app.WRONG_PASSWORD_TIMEOUT);
         }).then(() => this.setPuzzleStatus());
     }
     gameOver() {
@@ -165,24 +178,56 @@ app.HomePageController = class {
  */
 app.LeaderboardPageController = class {
     constructor() {
-        this._ref = null;
+        this._ref = firebase.firestore().collection('leaderboard');
+        this._template = document.querySelector('#leaderboardCard');
+        this._topFiveUid = [];
         this.getLeaderboardData()
-            .then(() => this.setTopFive()
-                .then(() => this.setRanking()));
+            .then(() => this.addUserUnranked());
     }
 
     getLeaderboardData() {
         return new Promise((resolve, reject) => {
-
-        });
-    }
-    setTopFive() {
-        return new Promise((resolve, reject) => {
-
+            this._ref.orderBy('timeCompleted').limit(5).get().then(snap => {
+                let pos = 1;
+                snap.forEach(doc => {
+                    this._topFiveUid.push(doc.data().uid);
+                    let card = this._template.cloneNode(true);
+                    card.innerHTML = card.innerHTML.replace('${rank}', pos);
+                    const name = (app.auth.uid == doc.data().uid) ? 'You' : doc.data().name;
+                    card.innerHTML = card.innerHTML.replace('${name}', name);
+                    card.innerHTML = card.innerHTML.replace('${time}', this.toTimeString(doc.data().timeCompleted));
+                    document.querySelector('#leaderboard').innerHTML += card.innerHTML;
+                    pos++;
+                });
+            }).then(() => resolve());
         });
     }
     addUserUnranked() {
-
+        if (this._topFiveUid.includes(app.auth.uid)) {
+            return;
+        }
+        this._ref.orderBy('timeCompleted').get().then(snap => {
+            let pos = 1;
+            snap.forEach(doc => {
+                if (doc.data().uid == app.auth.uid) {
+                    let card = this._template.cloneNode(true);
+                    card.innerHTML = card.innerHTML.replace('${rank}', pos);
+                    card.innerHTML = card.innerHTML.replace('${name}', 'You');
+                    card.innerHTML = card.innerHTML.replace('${time}', this.toTimeString(doc.data().timeCompleted));
+                    document.querySelector('#leaderboard').innerHTML += card.innerHTML;
+                }
+                pos++;
+            });
+        });
+    }
+    toTimeString(timeTaken) {
+        let timeString = '';
+        if (timeTaken / 3600 >= 1) {
+            timeString += `${Math.floor(timeTaken / 3600)}:`;
+            timeTaken %= 3600;
+        }
+        timeString += Math.floor(timeTaken / 60).toString().padStart(2, '0') + ":" + Math.floor(timeTaken % 60).toString().padStart(2, '0')
+        return timeString;
     }
 }
 
@@ -241,12 +286,13 @@ app.pageManager = () => {
     if (window.location.pathname == '/' || window.location.pathname == '/index.html') {
         document.querySelector('#authHeader').onclick = () => app.auth.signIn();
         document.querySelector('#authBody').onclick = () => app.auth.signIn();
+        return;
     } else
         document.querySelector('#authHeader').onclick = () => app.auth.signOut();
     switch (window.location.pathname) {
         case '/welcome.html':
             document.querySelector('#startBtn').onclick = () => app.database.createUserData();
-            break;
+            return;
         case '/puzzles-home.html':
             app.pageController = new app.HomePageController();
             app.pageController.setPuzzleStatus();
@@ -264,9 +310,31 @@ app.pageManager = () => {
 }
 
 /**
+ * From https://stackoverflow.com/a/66503749
+ * Sets the favicon to the specified text.
+ * @param text the data to dsiplay as the favicon
+ */
+app.setFavicon = text => {
+    const canvas = document.createElement('canvas');
+    canvas.height = 64;
+    canvas.width = 64;
+    const ctx = canvas.getContext('2d');
+    ctx.font = '64px serif';
+    ctx.fillText(text, -15, 55);
+    const link = document.createElement('link');
+    const oldLinks = document.querySelectorAll('link[rel="shortcut icon"]');
+    oldLinks.forEach(e => e.parentNode.removeChild(e));
+    link.id = 'dynamic-favicon';
+    link.rel = 'shortcut icon';
+    link.href = canvas.toDataURL();
+    document.head.appendChild(link);
+}
+
+/**
  * Initializes the app.
  */
 app.main = () => {
+    app.setFavicon('🔒');
     app.auth = new app.AuthManager();
     app.auth.beginListening(() => {
         app.checkForRedirects();
