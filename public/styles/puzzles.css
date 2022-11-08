@@ -1,5 +1,6 @@
 body>div>div>div>div:nth-child(1)>img {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
 }
 
 body>div>div>div>div:nth-child(2) {
@@ -46,6 +47,7 @@ body>div>div>div>div:nth-child(2)>button {
     background: var(--bs-gray-dark);
     margin-bottom: 4px;
     left: -5px;
+    top: -1px;
     position: relative;
 }
 
