@@ -7,6 +7,11 @@
     margin-bottom: 30px;
 }
 
+#newspaperHorizonleBlock {
+    display: flex;
+    flex-direction: row;
+}
+
 #newspaperHeader {
     text-align: center;
     font-size: 4em;

@@ -1,4 +1,5 @@
-let newspaper = {} || newspaper;
+const newspaper = {} || newspaper;
+newspaper.password = 'gobbldeegoop'
 
 
 class MadLib {
