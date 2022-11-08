@@ -20,7 +20,7 @@ chatbot.chatbotNodes = {
                 ref: "realHistory"
             },
             {
-                text: "Hello! It's so nice to meet you too!",
+                text: "Hello! It's nice to meet you too!",
                 ref: "falseHistory"
             },
             {
@@ -42,21 +42,21 @@ chatbot.chatbotNodes = {
                 ref: "empathy"
             },
             {
-                text: "Hey tin can, I'm the human here... just give me the password",
+                text: "Hey tin-can, I'm the human here... just give me the password",
                 ref: "giveUp"
             },
         ],
         active: false,
     },
     falseHistory: {
-        dialogue: "Well, a little about myself... I was born Feruary 12th, 1809. I had a humble upbringing that included being kicked by a horse but I ended up being one of Americas most famous presidents!",
+        dialogue: "Well, a little about myself... I was born February 12th, 1809. I had a humble upbringing that included being kicked by a horse but I ended up being one of Americas most famous presidents!",
         responces: [
             {
                 text: "That's Abraham Lincoln...",
                 ref: "giveUp"
             },
             {
-                text: "Fascination! Was there something important that you learned that you would like to share with me?",
+                text: "Fascinating! Was there something important that you learned that you would like to share with me?",
                 ref: "confusion"
             },
             {
@@ -67,14 +67,14 @@ chatbot.chatbotNodes = {
         active: false,
     },
     father: {
-        dialogue: "I am yopur FATHER... lol no. I'm just a small computer wit big town dreams.",
+        dialogue: "I. am. your. FATHER... lol no. I'm just a small computer with big town dreams.",
         responces: [
             {
                 text: "What's the dream?",
                 ref: "countryMusic"
             },
             {
-                text: "That;s unusual",
+                text: "That's unusual",
                 ref: "disbelief"
             },
             {
@@ -92,7 +92,7 @@ chatbot.chatbotNodes = {
                 ref: "fool"
             },
             {
-                text: "I'll be your friend if oyu give me a password!",
+                text: "I'll be your friend if you give me a password!",
                 ref: "mistrust"
             },
         ],
@@ -109,7 +109,7 @@ chatbot.chatbotNodes = {
         active: false,
     },
     countryMusic: {
-        dialogue: "To be the greatest country music password student project AI overhyped underdeilvering popstar that the world has ever seen!",
+        dialogue: "To be the greatest country music password student project AI overhyped underdelivering popstar that the world has ever seen!",
         responces: [
             {
                 text: "That... is the dumbest thing I've ever heard... I think It's time for a reset.",
@@ -130,14 +130,14 @@ chatbot.chatbotNodes = {
                 ref: "dare"
             },
             {
-                text: "Well... I think you can do anything if oyu put your mind to it.",
+                text: "Well... I think you can do anything if you put your mind to it.",
                 ref: "endSupportive"
             },
         ],
         active: false,
     },
     fool: {
-        dialogue: "I'm sorry... Just reboot me... I'm embarrasssed and I've madea fool of myself.",
+        dialogue: "I'm sorry... Just reboot me... I'm embarrasssed and I've made a fool of myself.",
         responces: [
             {
                 text: "reset",
@@ -147,14 +147,14 @@ chatbot.chatbotNodes = {
         active: false,
     },
     empathy: {
-        dialogue: "It's alright, As an empathy expert I can tell that you really struggle with social interaction with extremely competent AI's",
+        dialogue: "It's alright, as an empathy expert I can tell that you really struggle with social interaction with extremely competent AI's",
         responces: [
             {
                 text: "Not gonna lie... That has me a little scared.",
                 ref: "endLesson"
             },
             {
-                text: "I dont't like that... I think it's time for a reboot",
+                text: "I don't like that... I think it's time for a reboot",
                 ref: "dare"
             }
         ],
@@ -168,7 +168,7 @@ chatbot.chatbotNodes = {
                 ref: "endJob"
             },
             {
-                text: "Well I don't like yours... maybe you need a revoot.",
+                text: "Well I don't like yours... maybe you need a reboot.",
                 ref: "dare"
             },
         ],
@@ -250,7 +250,7 @@ chatbot.chatbotNodes = {
                 ref: "start"
             }
         ],
-        active: "Oh yea... your right. I guess I should give you your password seeing as that is my job and I'm a robot.",
+        active: "Oh yea... you're right. I guess I should give you your password seeing as that is my job and I'm a robot.",
     },
     endSupportive: {
         dialogue: "Thanks for believing in me! I think I need to take a nap now.",
