@@ -37,10 +37,12 @@ passwordle.setString = () => {
 passwordle.checkInputString = () => {
     let displayBoxes = document.querySelectorAll('.pw-row:first-child > .pw-box');
     let correct = [];
+    let numCorrect = 0;
     for (let i = 0; i < displayBoxes.length; i++) {
         if (passwordle.password.charAt(i) == displayBoxes[i].innerText) {
             displayBoxes[i].classList.add('correct-location');
             correct.push(passwordle.password.charAt(i));
+            numCorrect++;
         }
     }
     for (let i = 0; i < displayBoxes.length; i++) {
@@ -55,7 +57,7 @@ passwordle.checkInputString = () => {
         } else
             displayBoxes[i].classList.add('incorrect-character');
     }
-    if (correct.length != 5) {
+    if (numCorrect < 5) {
         passwordle.newRow();
     }
 }
