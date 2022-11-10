@@ -2,6 +2,9 @@ passwordle = {} || passwordle;
 passwordle.userInput = '';
 passwordle.allowedKeys = [];
 
+/**
+ * Initializes the passwordle game
+ */
 passwordle.main = () => {
     passwordle.newRow();
     window.addEventListener('keydown', passwordle.modifyString);
@@ -9,6 +12,10 @@ passwordle.main = () => {
     passwordle.allowedKeys.push('backspace', 'enter');
 }
 
+/**
+ * Updates the user input string when a key is pressed
+ * @param event key press
+ */
 passwordle.modifyString = event => {
     const key = event.key;
     if (!passwordle.allowedKeys.includes(key.toLowerCase())) return;
@@ -24,6 +31,9 @@ passwordle.modifyString = event => {
     passwordle.setString();
 }
 
+/**
+ * Sets the string in the display boxes
+ */
 passwordle.setString = () => {
     let displayBoxes = document.querySelectorAll('.pw-row:first-child > .pw-box');
     for (let i = 0; i < displayBoxes.length; i++) {
@@ -35,6 +45,9 @@ passwordle.setString = () => {
     }
 }
 
+/**
+ * Checks the user input string against the password
+ */
 passwordle.checkInputString = () => {
     let displayBoxes = document.querySelectorAll('.pw-row:first-child > .pw-box');
     let correct = [];
@@ -64,6 +77,9 @@ passwordle.checkInputString = () => {
         window.removeEventListener('keydown', passwordle.modifyString);
 }
 
+/**
+ * Adds a new row to the display
+ */
 passwordle.newRow = () => {
     passwordle.userInput = '';
     let row = document.querySelector('#passwordleRow').cloneNode(true);

@@ -7,11 +7,6 @@ app.database = null;
 app.pageController = null;
 
 /**
- * TODO (Canon):
- * - create leaderboard object on completion
- */
-
-/**
  * Class: AuthManager
  * Controls Firebase authentication
 */
@@ -74,8 +69,8 @@ app.UserDatabaseManager = class {
             name: app.auth.displayName,
             puzzlePasswords: {
                 brick: app.getRandomText(8),
-                newspaper: app.getRandomText(6, true),
-                passwordle: app.getRandomText(5, false, false),
+                newspaper: `${Math.ceil(Math.random() * 26)}|${Math.ceil(Math.random() * 26)}`,
+                passwordle: app.getRandomText(5, false),
                 chatbot: app.getRandomText(8)
             },
             puzzlesCompleted: {
@@ -106,14 +101,12 @@ app.UserDatabaseManager = class {
 /**
  * Generates a random string of charaters of a given length.
  * @param length number of characters to generate
- * @param lettersOnly determines if the string should only contain letters
  * @param caseSensitive only uses uppercase letters if true
  * @returns string of random characters
  */
-app.getRandomText = (length, lettersOnly = false, caseSensitive = true) => {
+app.getRandomText = (length, caseSensitive = true) => {
     let result = '';
-    let characters = (lettersOnly) ? 'abcdefghijklmnopqrstuvwxyz' : 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#%^*(),.+-_=';
-    if (!caseSensitive) characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ23456789!@#%^*(),.+-_=';
+    let characters = (!caseSensitive) ? 'ABCDEFGHIJKLMNPQRSTUVWXYZ23456789!@#%^*(),.+-_=' : 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#%^*(),.+-_=';
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
