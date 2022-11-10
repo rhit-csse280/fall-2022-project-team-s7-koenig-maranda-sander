@@ -4,12 +4,13 @@ passwordle.allowedKeys = [];
 
 passwordle.main = () => {
     passwordle.newRow();
-    window.addEventListener('keydown', e => passwordle.modifyString(e.key));
+    window.addEventListener('keydown', passwordle.modifyString);
     passwordle.allowedKeys = 'abcdefghijklmnopqrstuvwxyz0123456789!@#%^*(),.+-_='.split('');
     passwordle.allowedKeys.push('backspace', 'enter');
 }
 
-passwordle.modifyString = (key) => {
+passwordle.modifyString = event => {
+    const key = event.key;
     if (!passwordle.allowedKeys.includes(key.toLowerCase())) return;
     if (key === 'Backspace') {
         passwordle.userInput = passwordle.userInput.slice(0, -1);
@@ -57,9 +58,10 @@ passwordle.checkInputString = () => {
         } else
             displayBoxes[i].classList.add('incorrect-character');
     }
-    if (numCorrect < 5) {
+    if (numCorrect < 5)
         passwordle.newRow();
-    }
+    else
+        window.removeEventListener('keydown', passwordle.modifyString);
 }
 
 passwordle.newRow = () => {

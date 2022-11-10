@@ -9,7 +9,6 @@ app.pageController = null;
 /**
  * TODO (Canon):
  * - create leaderboard object on completion
- * - check for mobile (redirect to unsupported.html)
  */
 
 /**
@@ -175,7 +174,14 @@ app.HomePageController = class {
         }).then(() => this.setPuzzleStatus());
     }
     gameOver() {
-        window.location.pathname = '/game-over.html';
+        const ref = firebase.firestore().collection('leaderboard').doc(app.auth.uid);
+        app.database.data.then(snap => {
+            return snap.data().timeCompleted - snap.data().timeStarted;
+        }).then(timeDifference => ref.set({
+            name: app.auth.displayName,
+            uid: app.auth.uid,
+            timeCompleted: timeDifference
+        })).then(() => window.location.pathname = '/game-over.html');
     }
 }
 
@@ -196,6 +202,9 @@ app.LeaderboardPageController = class {
         return new Promise((resolve, reject) => {
             this._ref.orderBy('timeCompleted').limit(5).get().then(snap => {
                 let pos = 1;
+                if (snap.size == 0) {
+                    document.querySelector('#leaderboard').innerHTML = '<h3 class="text-white">Nobody\'s completed the escape room yet!</h3>';
+                }
                 snap.forEach(doc => {
                     this._topFiveUid.push(doc.data().uid);
                     let card = this._template.cloneNode(true);
@@ -324,14 +333,30 @@ app.pageManager = () => {
 }
 
 /**
+ * Checks if the user is on a mobile device and redirects to the unsupported page
+ * @returns true if using a mobile device
+ */
+app.isMobile = () => {
+    let isMobile = false;
+    if (window.matchMedia("only screen and (max-width: 760px)").matches) {
+        isMobile = true;
+        if (window.location.pathname != '/unsupported.html')
+            window.location.href = '/unsupported.html';
+    }
+    return isMobile;
+}
+
+/**
  * Initializes the app.
  */
 app.main = () => {
-    app.auth = new app.AuthManager();
-    app.auth.beginListening(() => {
-        app.checkForRedirects();
-        app.pageManager();
-    });
+    if (!app.isMobile()) {
+        app.auth = new app.AuthManager();
+        app.auth.beginListening(() => {
+            app.checkForRedirects();
+            app.pageManager();
+        });
+    }
 }
 
 app.main();
