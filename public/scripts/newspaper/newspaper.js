@@ -1,52 +1,47 @@
 const newspaper = {} || newspaper;
-newspaper.password = 'gobbldeegoop'
+newspaper.password = String(Math.floor(Math.random() * 26 + 1));
+newspaper.alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
+newspaper.Newspaper = class {
+    constructor(password) {
+        this.password = password.split('|');
 
-class MadLib {
-    constructor (element) {
-        this.element = element;
-        this.text = element.innerHTML;
+        this.boldIndex = parseInt(this.password[0]);
+        this.examinedLetter;
 
-        this.processText();
-
-        this.element.innerHTML = this.text;
+        this.handleArticle();
+        this.handleAdd();
     }
 
-    processText() {
-        const mainSubject = "Charlie"
-
-        this.text = this.text.split('|');
-        for(let i = 0;i < this.text.length;i ++) {
-            console.log(this.text[i]);
-            switch(this.text[i]) {
-                case 'main': 
-                    this.text[i] = mainSubject;
-                    break;
-                case 'a':
-                    this.text[i] = getRandomWord(adjective);
-                    break;
-                case 'n':
-                    this.text[i] = getRandomWord(noun);
-                    break;
-                case 'lastname':
-                    this.text[i] = getRandomWord(title);
+    handleArticle() {
+        const article = document.querySelector('#article');
+        let txt = article.innerHTML;
+        txt = txt.split(' ');
+        let newTxt = '';
+        let currentIndex = 0;
+        txt.forEach(word => {
+            let newWord = word;
+            if (word[0] == '[') {                
+                currentIndex ++;
+                if (currentIndex == this.boldIndex) {
+                    this.examinedLetter = word[1].toUpperCase();
+                }
+                word = '<strong>' + word.replace('[', '') + '</strong> '
             }
-        }
-        this.text = this.rebuildString(this.text);
+            newTxt += word + ' ';
+        });
+        article.innerHTML = newTxt;
     }
 
-    rebuildString(arrayOfStrings) {
-        let str = '';
-        arrayOfStrings.forEach(s => {
-            str += s;
-        });
-        return str;
+    handleAdd() {
+        document.querySelector('#aValue').innerHTML = document.querySelector('#aValue').innerHTML.replace('[INSERT]', this.examinedLetter);
     }
 }
+
+
 
 function main() {
-    const article = document.getElementById("newspaperArticle");
-    const articleBlock = new MadLib(article);
-}
-
+    console.log(newspaper.password);
+    new newspaper.Newspaper(newspaper.password);
+};
 main();
