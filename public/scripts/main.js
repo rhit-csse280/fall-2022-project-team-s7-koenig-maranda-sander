@@ -7,13 +7,6 @@ app.database = null;
 app.pageController = null;
 
 /**
- * TODO (Canon):
- * - fix timeCompleted, last puzzle not changing when completed
- * - create leaderboard object on completion
- * - passwordle
- */
-
-/**
  * Class: AuthManager
  * Controls Firebase authentication
 */
@@ -76,8 +69,8 @@ app.UserDatabaseManager = class {
             name: app.auth.displayName,
             puzzlePasswords: {
                 brick: app.getRandomText(8),
-                newspaper: app.getRandomText(6, true),
-                passwordle: app.getRandomText(5),
+                newspaper: `${Math.ceil(Math.random() * 26)}|${Math.ceil(Math.random() * 26)}`,
+                passwordle: app.getRandomText(5, false),
                 chatbot: app.getRandomText(8)
             },
             puzzlesCompleted: {
@@ -108,12 +101,12 @@ app.UserDatabaseManager = class {
 /**
  * Generates a random string of charaters of a given length.
  * @param length number of characters to generate
- * @param lettersOnly determines if the string should only contain letters
+ * @param caseSensitive only uses uppercase letters if true
  * @returns string of random characters
  */
-app.getRandomText = (length, lettersOnly = false) => {
+app.getRandomText = (length, caseSensitive = true) => {
     let result = '';
-    const characters = (lettersOnly) ? 'abcdefghijklmnopqrstuvwxyz' : 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#%^*(),.+-_=';
+    let characters = (!caseSensitive) ? 'ABCDEFGHIJKLMNPQRSTUVWXYZ23456789!@#%^*(),.+-_=' : 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#%^*(),.+-_=';
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
@@ -126,6 +119,7 @@ app.getRandomText = (length, lettersOnly = false) => {
  */
 app.HomePageController = class {
     constructor() {
+        document.querySelector('#passwordText').addEventListener('keyup', e => { if (e.keyCode == 13) this.checkPassword(e.target) });
         document.querySelector('#passwordSubmit').onclick = () => this.checkPassword(document.querySelector('#passwordText'));
     }
 
@@ -151,24 +145,36 @@ app.HomePageController = class {
     checkPassword(input) {
         app.database.data.then(doc => {
             let puzzlePasswords = doc.data().puzzlePasswords;
+            let passwordAccepted = false;
             for (let puzzle in puzzlePasswords) {
                 if (input.value == puzzlePasswords[puzzle]
                     || (puzzle == 'newspaper' && input.value.toLowerCase() == puzzlePasswords[puzzle])) {
                     app.database.puzzleCompleted(puzzle);
+                    passwordAccepted = true;
+                    input.value = '';
                     break;
                 }
             }
-            input.style.color = 'red';
-            input.disabled = true;
-            setTimeout(() => {
-                input.style.color = 'black';
-                input.value = '';
-                input.disabled = false;
-            }, app.WRONG_PASSWORD_TIMEOUT);
+            if (!passwordAccepted) {
+                input.style.color = 'red';
+                input.disabled = true;
+                setTimeout(() => {
+                    input.style.color = 'black';
+                    input.value = '';
+                    input.disabled = false;
+                }, app.WRONG_PASSWORD_TIMEOUT);
+            }
         }).then(() => this.setPuzzleStatus());
     }
     gameOver() {
-        window.location.pathname = '/game-over.html';
+        const ref = firebase.firestore().collection('leaderboard').doc(app.auth.uid);
+        app.database.data.then(snap => {
+            return snap.data().timeCompleted - snap.data().timeStarted;
+        }).then(timeDifference => ref.set({
+            name: app.auth.displayName,
+            uid: app.auth.uid,
+            timeCompleted: timeDifference
+        })).then(() => window.location.pathname = '/game-over.html');
     }
 }
 
@@ -189,6 +195,9 @@ app.LeaderboardPageController = class {
         return new Promise((resolve, reject) => {
             this._ref.orderBy('timeCompleted').limit(5).get().then(snap => {
                 let pos = 1;
+                if (snap.size == 0) {
+                    document.querySelector('#leaderboard').innerHTML = '<h3 class="text-white">Nobody\'s completed the escape room yet!</h3>';
+                }
                 snap.forEach(doc => {
                     this._topFiveUid.push(doc.data().uid);
                     let card = this._template.cloneNode(true);
@@ -298,9 +307,16 @@ app.pageManager = () => {
             app.pageController.setPuzzleStatus();
             break;
         case '/chatbot.html':
-            app.database.data.then(doc => {
-                chatbot.password = doc.data().puzzlePasswords['chatbot'];
-            });
+            app.database.data.then(doc => chatbot.password = doc.data().puzzlePasswords['chatbot']);
+            break;
+        case '/newspaper.html':
+            app.database.data.then(doc => newspaper.password = doc.data().puzzlePasswords['newspaper']);
+            break;
+        case '/passwordle.html':
+            app.database.data.then(doc => passwordle.password = doc.data().puzzlePasswords['passwordle']);
+            break;
+        case '/brick-breaker.html':
+            app.database.data.then(doc => brickBreaker.password = doc.data().puzzlePasswords['brick']);
             break;
         case '/leaderboard.html':
             app.pageController = new app.LeaderboardPageController();
@@ -310,36 +326,30 @@ app.pageManager = () => {
 }
 
 /**
- * From https://stackoverflow.com/a/66503749
- * Sets the favicon to the specified text.
- * @param text the data to dsiplay as the favicon
+ * Checks if the user is on a mobile device and redirects to the unsupported page
+ * @returns true if using a mobile device
  */
-app.setFavicon = text => {
-    const canvas = document.createElement('canvas');
-    canvas.height = 64;
-    canvas.width = 64;
-    const ctx = canvas.getContext('2d');
-    ctx.font = '64px serif';
-    ctx.fillText(text, -15, 55);
-    const link = document.createElement('link');
-    const oldLinks = document.querySelectorAll('link[rel="shortcut icon"]');
-    oldLinks.forEach(e => e.parentNode.removeChild(e));
-    link.id = 'dynamic-favicon';
-    link.rel = 'shortcut icon';
-    link.href = canvas.toDataURL();
-    document.head.appendChild(link);
+app.isMobile = () => {
+    let isMobile = false;
+    if (window.matchMedia("only screen and (max-width: 760px)").matches) {
+        isMobile = true;
+        if (window.location.pathname != '/unsupported.html')
+            window.location.href = '/unsupported.html';
+    }
+    return isMobile;
 }
 
 /**
  * Initializes the app.
  */
 app.main = () => {
-    app.setFavicon('🔒');
-    app.auth = new app.AuthManager();
-    app.auth.beginListening(() => {
-        app.checkForRedirects();
-        app.pageManager();
-    });
+    if (!app.isMobile()) {
+        app.auth = new app.AuthManager();
+        app.auth.beginListening(() => {
+            app.checkForRedirects();
+            app.pageManager();
+        });
+    }
 }
 
 app.main();
