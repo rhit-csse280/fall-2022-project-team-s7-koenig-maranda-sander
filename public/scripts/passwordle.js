@@ -51,27 +51,30 @@ passwordle.setString = () => {
 passwordle.checkInputString = () => {
     let displayBoxes = document.querySelectorAll('.pw-row:first-child > .pw-box');
     let correct = [];
-    let numCorrect = 0;
+    let correctPos = [];
     for (let i = 0; i < displayBoxes.length; i++) {
         if (passwordle.password.charAt(i) == displayBoxes[i].innerText) {
             displayBoxes[i].classList.add('correct-location');
             correct.push(passwordle.password.charAt(i));
-            numCorrect++;
+            correctPos.push(i)
         }
     }
     for (let i = 0; i < displayBoxes.length; i++) {
-        if (passwordle.password.includes(displayBoxes[i].innerText)) {
-            let occurences = 0;
-            correct.forEach(j => { if (j == displayBoxes[i].innerText) occurences++ });
-            if (occurences < passwordle.password.split(displayBoxes[i].innerText).length - 1) {
-                displayBoxes[i].classList.add('incorrect-location');
-                correct.push(displayBoxes[i].innerText);
+        if (!correctPos.includes(i)) {
+            if (passwordle.password.includes(displayBoxes[i].innerText)) {
+                let occurences = 0;
+                correct.forEach(j => { if (j == displayBoxes[i].innerText) occurences++ });
+                if (occurences < passwordle.password.split(displayBoxes[i].innerText).length - 1) {
+                    displayBoxes[i].classList.add('incorrect-location');
+                    correct.push(displayBoxes[i].innerText);
+                } else {
+                    displayBoxes[i].classList.add('incorrect-character');
+                }
             } else
                 displayBoxes[i].classList.add('incorrect-character');
-        } else
-            displayBoxes[i].classList.add('incorrect-character');
+        }
     }
-    if (numCorrect < 5)
+    if (correctPos.length < 5)
         passwordle.newRow();
     else
         window.removeEventListener('keydown', passwordle.modifyString);
