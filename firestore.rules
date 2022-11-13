@@ -1,9 +1,22 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if
-          request.time < timestamp.date(2022, 11, 20);
+    match /leaderboard/{userId} {
+      allow read: if request.auth != null;
+    }
+    match /leaderboard/{userId} {
+    	allow create: if request.auth != null && request.auth.uid == userId;
+    }
+    match /users/{userId} {
+    	allow read, create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.resource.data.diff(resource.data).affectedKeys() == ["puzzlesCompleted"].toSet() ||
+      	request.resource.data.diff(resource.data).affectedKeys() == ["timeCompleted"].toSet();
+    }
+    match /users/{document=**} {
+    	allow create: if request.resource.id == request.auth.id;
+    }
+    match /leaderboard/{document=**} {
+    	allow create: if request.resource.id == request.auth.id;
     }
   }
 }
