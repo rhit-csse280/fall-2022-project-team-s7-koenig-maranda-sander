@@ -69,7 +69,7 @@ app.UserDatabaseManager = class {
             name: app.auth.displayName,
             puzzlePasswords: {
                 brick: app.getRandomText(8),
-                newspaper: `${Math.ceil(Math.random() * 26)}|${Math.ceil(Math.random() * 26)}`,
+                newspaper: `${Math.floor(Math.random() * 26 + 1)}|${Math.floor(Math.random() * 10 + 9)}`,
                 passwordle: app.getRandomText(5, false),
                 chatbot: app.getRandomText(8)
             },

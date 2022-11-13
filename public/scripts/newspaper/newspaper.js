@@ -1,5 +1,5 @@
 const newspaper = {} || newspaper;
-newspaper.password = String(Math.floor(Math.random() * 26 + 1)) + '|' + String(Math.floor(Math.random() * 10 + 9));
+// newspaper.password = String(Math.floor(Math.random() * 26 + 1)) + '|' + String(Math.floor(Math.random() * 10 + 9));
 newspaper.alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 newspaper.Newspaper = class {
@@ -14,7 +14,7 @@ newspaper.Newspaper = class {
 
         this.handleColumn();
 
-        console.log('newspaper.password :>> ', newspaper.password);
+        // console.log('newspaper.password :>> ', newspaper.password);
     }
 
     handleArticle() {
