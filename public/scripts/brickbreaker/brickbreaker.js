@@ -4,6 +4,7 @@ const brickBreaker = {} || brickBreaker;
 bb.WIDTH = 0;
 bb.HEIGHT = 0;
 brickBreaker.password = ""; //to be overwritten by main
+textDrawn = false;
 
 //functions to convert from gameplay coordinates to display coordinates, this allows the size of the viewing box to change with screen size
 function realX(x) {
@@ -254,8 +255,9 @@ function draw() {
   }
   if (bricks.length > 0) {
     testBall.update();
-  } else {
+  } else if (!textDrawn) {
     document.querySelector('#password').innerText = brickBreaker.password;
+    textDrawn = true;
   }
   testPaddle.drawSelf();
 
