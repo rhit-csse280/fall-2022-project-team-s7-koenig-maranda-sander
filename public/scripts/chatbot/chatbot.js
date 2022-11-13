@@ -300,7 +300,7 @@ class ChatbotPageController {
             };
         } else {
             textArea.innerHTML = this.chatbot.currentData.active;
-            newItem = htmlToElement(`<h1>${chatbot.password}</h1>`)
+            newItem = htmlToElement(`<h1 class="text-center">${chatbot.password}</h1>`)
         }
 
         const oldList = document.getElementById("buttonList");
