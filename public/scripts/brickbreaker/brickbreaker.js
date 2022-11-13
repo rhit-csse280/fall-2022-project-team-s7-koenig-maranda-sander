@@ -176,7 +176,7 @@ bb.handleCol = function (brick, ball) {
     ball.xVel *= -1;
     ball.y += ball.yVel; //restore original position
   }
-  else { //colision happened as a result of movement on y axis (technically could be both, but corners are hard and this works fine)
+  else { //collision happened as a result of movement on y axis (technically could be both, but corners are hard and this works fine)
     ball.y += ball.yVel;
     ball.yVel *= -1;
   }

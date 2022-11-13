@@ -99,7 +99,7 @@ app.UserDatabaseManager = class {
 }
 
 /**
- * Generates a random string of charaters of a given length.
+ * Generates a random string of characters of a given length.
  * @param length number of characters to generate
  * @param caseSensitive only uses uppercase letters if true
  * @returns string of random characters

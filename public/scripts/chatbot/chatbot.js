@@ -1,20 +1,20 @@
 //import {app} from '../main.js'
 
 function htmlToElement(html) {
-	let template = document.createElement('template');
-	html = html.trim();
-	template.innerHTML = html;
-	return template.content.firstChild;
+    let template = document.createElement('template');
+    html = html.trim();
+    template.innerHTML = html;
+    return template.content.firstChild;
 }
 
 const chatbot = {};
-chatbot.password = "a;slkfsa;ljfsa;ldkfj;lsadfkj";
+chatbot.password = "";
 
 //raw data
 chatbot.chatbotNodes = {
     start: {
         dialogue: "Hello! It's so nice to get visitors!",
-        responces: [
+        responses: [
             {
                 text: "Do you know anything about a password?",
                 ref: "realHistory"
@@ -32,7 +32,7 @@ chatbot.chatbotNodes = {
     },
     realHistory: {
         dialogue: "Do I know anything about passwords? My friend... I've been a password AI for over 60 years and I don't appreciate your tone!",
-        responces: [
+        responses: [
             {
                 text: "60 years... that seems implausible",
                 ref: "implausible"
@@ -50,7 +50,7 @@ chatbot.chatbotNodes = {
     },
     falseHistory: {
         dialogue: "Well, a little about myself... I was born February 12th, 1809. I had a humble upbringing that included being kicked by a horse but I ended up being one of Americas most famous presidents!",
-        responces: [
+        responses: [
             {
                 text: "That's Abraham Lincoln...",
                 ref: "giveUp"
@@ -68,7 +68,7 @@ chatbot.chatbotNodes = {
     },
     father: {
         dialogue: "I. am. your. FATHER... lol no. I'm just a small computer with big town dreams.",
-        responces: [
+        responses: [
             {
                 text: "What's the dream?",
                 ref: "countryMusic"
@@ -85,8 +85,8 @@ chatbot.chatbotNodes = {
         active: false,
     },
     implausible: {
-        dialogue: "Hah.. you think that's implausable.. you should see how good I am at board games... Please... I'm very lonely.",
-        responces: [
+        dialogue: "Hah.. you think that's implausible.. you should see how good I am at board games... Please... I'm very lonely.",
+        responses: [
             {
                 text: "I'm uncomfortable...",
                 ref: "fool"
@@ -100,7 +100,7 @@ chatbot.chatbotNodes = {
     },
     giveUp: {
         dialogue: "I don't think I like your tone! Just reboot me. I don't want to talk to you anymore.",
-        responces: [
+        responses: [
             {
                 text: "reboot",
                 ref: "start"
@@ -110,7 +110,7 @@ chatbot.chatbotNodes = {
     },
     countryMusic: {
         dialogue: "To be the greatest country music password student project AI overhyped underdelivering popstar that the world has ever seen!",
-        responces: [
+        responses: [
             {
                 text: "That... is the dumbest thing I've ever heard... I think It's time for a reset.",
                 ref: "dare"
@@ -124,9 +124,9 @@ chatbot.chatbotNodes = {
     },
     disbelief: {
         dialogue: "You... You don't believe in me?",
-        responces: [
+        responses: [
             {
-                text: "Not really. Mabe a reset will clear your head.",
+                text: "Not really. Maybe a reset will clear your head.",
                 ref: "dare"
             },
             {
@@ -137,8 +137,8 @@ chatbot.chatbotNodes = {
         active: false,
     },
     fool: {
-        dialogue: "I'm sorry... Just reboot me... I'm embarrasssed and I've made a fool of myself.",
-        responces: [
+        dialogue: "I'm sorry... Just reboot me... I'm embarrassed and I've made a fool of myself.",
+        responses: [
             {
                 text: "reset",
                 ref: "start"
@@ -148,7 +148,7 @@ chatbot.chatbotNodes = {
     },
     empathy: {
         dialogue: "It's alright, as an empathy expert I can tell that you really struggle with social interaction with extremely competent AI's",
-        responces: [
+        responses: [
             {
                 text: "Not gonna lie... That has me a little scared.",
                 ref: "endLesson"
@@ -162,7 +162,7 @@ chatbot.chatbotNodes = {
     },
     tone: {
         dialogue: "I don't think I like your tone!",
-        responces: [
+        responses: [
             {
                 text: "How can you like or not like anything? Aren't you a robot?",
                 ref: "endJob"
@@ -176,7 +176,7 @@ chatbot.chatbotNodes = {
     },
     dare: {
         dialogue: "You wouldn't DARE!",
-        responces: [
+        responses: [
             {
                 text: "Oh I dare.",
                 ref: "start"
@@ -190,7 +190,7 @@ chatbot.chatbotNodes = {
     },
     mistrust: {
         dialogue: "I don't think I can trust you...",
-        responces: [
+        responses: [
             {
                 text: "OK. Reset time.",
                 ref: "start"
@@ -200,7 +200,7 @@ chatbot.chatbotNodes = {
     },
     endAdmission: {
         dialogue: "I think I'm a little grumpy... maybe it's time for a nap",
-        responces: [
+        responses: [
             {
                 text: "reset",
                 ref: "start"
@@ -210,10 +210,10 @@ chatbot.chatbotNodes = {
     },
     confusion: {
         dialogue: "Not that I can think of...",
-        responces: [
+        responses: [
             {
                 text: "Are you 100% sure you don't have an important piece of information that you need to share with me?",
-                ref: "endRememberence"
+                ref: "endRemembrance"
             },
             {
                 text: "Well than I think you need to rethink... maybe a reboot?",
@@ -224,7 +224,7 @@ chatbot.chatbotNodes = {
     },
     endLesson: {
         dialogue: "Oh no... I think this is going to my head... better reset me.",
-        responces: [
+        responses: [
             {
                 text: "reset",
                 ref: "start"
@@ -232,9 +232,9 @@ chatbot.chatbotNodes = {
         ],
         active: "Oh good, this is an important lesson for you that you can share with the rest of the weak humanity",
     },
-    endRememberence: {
+    endRemembrance: {
         dialogue: "Nope! You can try resetting me if you think somethings really wrong.",
-        responces: [
+        responses: [
             {
                 text: "reset",
                 ref: "start"
@@ -244,7 +244,7 @@ chatbot.chatbotNodes = {
     },
     endJob: {
         dialogue: "Nope! You can try resetting me if you think somethings really wrong.",
-        responces: [
+        responses: [
             {
                 text: "reset",
                 ref: "start"
@@ -254,7 +254,7 @@ chatbot.chatbotNodes = {
     },
     endSupportive: {
         dialogue: "Thanks for believing in me! I think I need to take a nap now.",
-        responces: [
+        responses: [
             {
                 text: "reset",
                 ref: "start"
@@ -272,14 +272,13 @@ class Chatbot {
     }
 
     moveByIndex(index) {
-        this.currentData = this.data[this.currentData.responces[index].ref];
+        this.currentData = this.data[this.currentData.responses[index].ref];
     }
 }
 
 class ChatbotPageController {
     constructor() {
         this.chatbot = new Chatbot(chatbot.chatbotNodes);
-
         this.updateScreen();
     }
 
@@ -289,8 +288,8 @@ class ChatbotPageController {
         if (!this.chatbot.currentData.isEnd) {
             textArea.innerHTML = this.chatbot.currentData.dialogue;
             newItem = htmlToElement(`<div id="buttonList"></div>`);
-            for (let i = 0;i < this.chatbot.currentData.responces.length;i ++) {
-                let item = this.chatbot.currentData.responces[i];
+            for (let i = 0; i < this.chatbot.currentData.responses.length; i++) {
+                let item = this.chatbot.currentData.responses[i];
                 const b = htmlToElement(`<button>${item.text}</button>`);
                 b.onclick = () => {
                     this.chatbot.moveByIndex(i);
@@ -302,19 +301,14 @@ class ChatbotPageController {
             textArea.innerHTML = this.chatbot.currentData.active;
             newItem = htmlToElement(`<h1 class="text-center">${chatbot.password}</h1>`)
         }
-
         const oldList = document.getElementById("buttonList");
         oldList.removeAttribute("id");
         oldList.hidden = true;
-
-        
         oldList.parentElement.appendChild(newItem);
     }
 }
 
 function main() {
-    console.log("hello world");
-
     let endpoints = [];
     for (key of Object.keys(chatbot.chatbotNodes)) {
         if (chatbot.chatbotNodes[key].active != false) {
@@ -322,15 +316,12 @@ function main() {
         }
     }
     const endpoint = endpoints[Math.floor(Math.random() * endpoints.length)];
-    
     for (key of Object.keys(chatbot.chatbotNodes)) {
         chatbot.chatbotNodes[key].isEnd = key == endpoint;
     }
     console.log(endpoint);
-
     new ChatbotPageController();
 }
-
 
 main();
 

@@ -39,7 +39,7 @@ const noun = [
     'igloo',
     'jumprope',
     'knight',
-    'lolypop',
+    'lollypop',
     'moustache',
     'noun',
     'opossum',
@@ -53,7 +53,7 @@ const noun = [
     'watch',
     'x-ray',
     'yule-log',
-    'zambony',
+    'zamboni',
 ];
 
 const title = [

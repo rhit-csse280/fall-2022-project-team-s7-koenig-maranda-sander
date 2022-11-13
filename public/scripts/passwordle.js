@@ -62,9 +62,9 @@ passwordle.checkInputString = () => {
     for (let i = 0; i < displayBoxes.length; i++) {
         if (!correctPos.includes(i)) {
             if (passwordle.password.includes(displayBoxes[i].innerText)) {
-                let occurences = 0;
-                correct.forEach(j => { if (j == displayBoxes[i].innerText) occurences++ });
-                if (occurences < passwordle.password.split(displayBoxes[i].innerText).length - 1) {
+                let occurrences = 0;
+                correct.forEach(j => { if (j == displayBoxes[i].innerText) occurrences++ });
+                if (occurrences < passwordle.password.split(displayBoxes[i].innerText).length - 1) {
                     displayBoxes[i].classList.add('incorrect-location');
                     correct.push(displayBoxes[i].innerText);
                 } else {
