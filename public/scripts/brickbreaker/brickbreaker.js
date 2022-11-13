@@ -235,7 +235,8 @@ function draw() {
 
   background(255);
   textAlign(CENTER,TOP);
-  textSize(bb.WIDTH/5);
+  textSize(bb.WIDTH/8);
+  textFont('Consolas');
   text(brickBreaker.password, realX(50),realY(0));
 
   for (let i=0; i<bricks.length; i++){
