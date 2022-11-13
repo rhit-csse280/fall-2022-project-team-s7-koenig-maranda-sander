@@ -87,4 +87,13 @@ newspaper.Newspaper = class {
 function main() {
     new newspaper.Newspaper(newspaper.password);
 };
-main();
+
+const waitForPassword = () => {
+    if (newspaper.password) {
+        main();
+    } else {
+        setTimeout(waitForPassword, 250);
+    }
+}
+
+waitForPassword();
