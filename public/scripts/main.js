@@ -1,6 +1,7 @@
 const app = {} || app;
 app.NUMBER_OF_PUZZLES = 4;
 app.WRONG_PASSWORD_TIMEOUT = 2000;
+app.ROSEFIRE_TOKEN = '46311c9c-ff4a-49b3-9337-74d05b699a42';
 
 app.auth = null;
 app.database = null;
@@ -22,7 +23,7 @@ app.AuthManager = class {
         });
     }
     signIn() {
-        Rosefire.signIn('4d5214a6-81b4-4344-afd4-8f1b2de0927a', (err, rfUser) => {
+        Rosefire.signIn(app.ROSEFIRE_TOKEN, (err, rfUser) => {
             if (err) {
                 console.error(err);
                 return;
