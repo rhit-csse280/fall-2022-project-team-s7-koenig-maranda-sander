@@ -1,7 +1,7 @@
 const app = {} || app;
 app.NUMBER_OF_PUZZLES = 4;
 app.WRONG_PASSWORD_TIMEOUT = 2000;
-app.ROSEFIRE_TOKEN = '46311c9c-ff4a-49b3-9337-74d05b699a42';
+app.ROSEFIRE_TOKEN = '1a07643b-5bdb-4060-b6fd-1ab994ed64c6';
 
 app.auth = null;
 app.database = null;
